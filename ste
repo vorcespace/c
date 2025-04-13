@@ -1,29 +1,32 @@
 <?php
-$host = $_SERVER['HTTP_HOST'];
+header('Content-Type: application/xml');
+$domain = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+$domain .= "://" . $_SERVER['HTTP_HOST'];
+$keywords = [
+  'online-casino-malaysia',
+  'trusted-online-casino-malaysia',
+  '918kiss-casino',
+  'live-casino-malaysia',
+  'best-online-slots-malaysia',
+  'scr888-malaysia',
+  'mobile-casino-malaysia',
+  'casino-malaysia-free-credit',
+  'new-online-casino-malaysia',
+  'mega888-malaysia',
+  'rollex11-casino',
+  'evo888-malaysia'
+];
+$today = date('Y-m-d');
+echo '<?xml version="1.0" encoding="UTF-8"?>', "\n";
 
-echo'<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-   
-   <url>
-      <loc>https://'.$host.'/</loc>
-      <lastmod>2025-04-14</lastmod>
-      <priority>1.00</priority>
-      <changefreq>daily</changefreq>
-   </url>
-
-   <url>
-      <loc>https://'.$host.'/p/babi</loc>
-      <lastmod>2025-04-14</lastmod>
-      <priority>0.80</priority>
-      <changefreq>weekly</changefreq>
-   </url>
-
-   <url>
-      <loc>https://'.$host.'/p/other-page</loc>
-      <lastmod>2025-04-10</lastmod>
-      <priority>0.64</priority>
-      <changefreq>monthly</changefreq>
-   </url>
-
-</urlset>';
 ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<?php foreach ($keywords as $keyword): ?>
+  <url>
+    <loc><?= htmlspecialchars($domain . '/p/' . $keyword) ?></loc>
+    <lastmod><?= $today ?></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+<?php endforeach; ?>
+</urlset>
