@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   
+   <url>
+      <loc>https://esurat.jayawinatasij.sch.id/</loc>
+      <lastmod>2025-04-14</lastmod>
+      <priority>1.00</priority>
+      <changefreq>daily</changefreq>
+   </url>
+
+   <url>
+      <loc>https://esurat.jayawinatasij.sch.id/p/babi</loc>
+      <lastmod>2025-04-14</lastmod>
+      <priority>0.80</priority>
+      <changefreq>weekly</changefreq>
+   </url>
+
+   <url>
+      <loc>https://esurat.jayawinatasij.sch.id/p/other-page</loc>
+      <lastmod>2025-04-10</lastmod>
+      <priority>0.64</priority>
+      <changefreq>monthly</changefreq>
+   </url>
+
+</urlset>
