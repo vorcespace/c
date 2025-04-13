@@ -1,3 +1,3 @@
 <?php
-echo 'PX';
+echo $_GET['p'];
 ?>
