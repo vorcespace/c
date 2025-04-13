@@ -1,7 +1,11 @@
 <?php
 header('Content-Type: application/xml');
+
+// Get the current domain dynamically
 $domain = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
 $domain .= "://" . $_SERVER['HTTP_HOST'];
+
+// List of keywords (you can add more easily by appending to this array)
 $keywords = [
   'online-casino-malaysia',
   'trusted-online-casino-malaysia',
@@ -16,12 +20,19 @@ $keywords = [
   'rollex11-casino',
   'evo888-malaysia'
 ];
+
+// Get today's date
 $today = date('Y-m-d');
+
+// Output the XML header
 echo '<?xml version="1.0" encoding="UTF-8"?>', "\n";
 
+// Open the <urlset> tag for the sitemap
+echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', "\n";
+
+// Loop through the keywords and generate a <url> entry for each
+foreach ($keywords as $keyword):
 ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<?php foreach ($keywords as $keyword): ?>
   <url>
     <loc><?= htmlspecialchars($domain . '/p/' . $keyword) ?></loc>
     <lastmod><?= $today ?></lastmod>
@@ -29,4 +40,6 @@ echo '<?xml version="1.0" encoding="UTF-8"?>', "\n";
     <priority>0.8</priority>
   </url>
 <?php endforeach; ?>
+
+<!-- Close the <urlset> tag -->
 </urlset>
