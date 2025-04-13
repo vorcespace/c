@@ -1,42 +1,43 @@
 <?php
+// Get the current domain dynamically
 $domain = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
 $domain .= "://" . $_SERVER['HTTP_HOST'];
 
-// List of keywords (you can add more easily by appending to this array)
+// List of keywords for the sitemap
 $keywords = [
-  'online-casino-malaysia',
-  'trusted-online-casino-malaysia',
-  '918kiss-casino',
-  'live-casino-malaysia',
-  'best-online-slots-malaysia',
-  'scr888-malaysia',
-  'mobile-casino-malaysia',
-  'casino-malaysia-free-credit',
-  'new-online-casino-malaysia',
-  'mega888-malaysia',
-  'rollex11-casino',
-  'evo888-malaysia'
+    'online-casino-malaysia',
+    'trusted-online-casino-malaysia',
+    '918kiss-casino',
+    'live-casino-malaysia',
+    'best-online-slots-malaysia',
+    'scr888-malaysia',
+    'mobile-casino-malaysia',
+    'casino-malaysia-free-credit',
+    'new-online-casino-malaysia',
+    'mega888-malaysia',
+    'rollex11-casino',
+    'evo888-malaysia'
 ];
 
 // Get today's date
 $today = date('Y-m-d');
 
-// Output the XML header
-echo '<?xml version="1.0" encoding="UTF-8"?>', "\n";
+// Output the XML declaration
+echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 
-// Open the <urlset> tag for the sitemap
-echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', "\n";
+// Start the urlset tag
+echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
-// Loop through the keywords and generate a <url> entry for each
-foreach ($keywords as $keyword):
+// Loop through the keywords and generate sitemap URLs
+foreach ($keywords as $keyword) {
+    echo '  <url>' . "\n";
+    echo '    <loc>' . htmlspecialchars($domain . '/p/' . $keyword) . '</loc>' . "\n";
+    echo '    <lastmod>' . $today . '</lastmod>' . "\n";
+    echo '    <changefreq>weekly</changefreq>' . "\n";
+    echo '    <priority>0.8</priority>' . "\n";
+    echo '  </url>' . "\n";
+}
+
+// Close the urlset tag
+echo '</urlset>';
 ?>
-  <url>
-    <loc><?= htmlspecialchars($domain . '/p/' . $keyword) ?></loc>
-    <lastmod><?= $today ?></lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-<?php endforeach; ?>
-
-<!-- Close the <urlset> tag -->
-</urlset>
