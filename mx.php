@@ -235,6 +235,7 @@ $key =  htmlspecialchars($meta['keywords'], ENT_QUOTES);
 $desc = htmlspecialchars($meta['description'], ENT_QUOTES);
 $key =  htmlspecialchars($meta['keywords'], ENT_QUOTES);
 }
+print_r($urls);
 echo '<!doctype html>
 <html ⚡ lang="en_MY">
    <head>
