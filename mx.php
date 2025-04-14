@@ -172,7 +172,7 @@ $desc = htmlspecialchars($meta['description'], ENT_QUOTES);
 $key =  htmlspecialchars($meta['keywords'], ENT_QUOTES);
 }
 echo '<!doctype html>
-<html amp i-amphtml-layout lang=en style="padding-top:32px !important;" transformed="google;v=8">
+<html amp i-amphtml-layout lang=en style="padding-top:32px;" transformed="google;v=8">
    <head>
       <meta charset=utf-8>
       <meta content="width=device-width" name=viewport>
