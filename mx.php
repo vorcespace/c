@@ -42,20 +42,16 @@ function fetchSitemapUrls($sitemapUrl) {
 
 function autoInternalLink($content, $urls, $limit = 5) {
     if (empty($urls)) return $content;
-
-    // Pick random URLs
     shuffle($urls);
     $selectedUrls = array_slice($urls, 0, $limit);
-
     foreach ($selectedUrls as $url) {
-        // Extract last part of URL for anchor text (you can customize)
         $text = ucwords(str_replace(['-', '_'], ' ', basename($url)));
-
-        // Create anchor tag
         $link = '<a href="' . htmlspecialchars($url) . '">' . htmlspecialchars($text) . '</a>';
-        $content = preg_replace('/(\. )/i', '. ' . $link . ' ', $content, 1);
+        $randomPos = rand(0, strlen($content) - 1); 
+        $firstPart = substr($content, 0, $randomPos);
+        $secondPart = substr($content, $randomPos);
+        $content = $firstPart . $link . $secondPart;
     }
-
     return $content;
 }
 $sitemapUrl = $fullUrl.'/sitemap.xml';
