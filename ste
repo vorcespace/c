@@ -140,15 +140,19 @@ $keywords = [
     'live-casino-deals-malaysia',
     'malaysia-mobile-casinos'
 ];
+shuffle($keywords);
 $today = date('Y-m-d');
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-foreach ($keywords as $keyword) {
+foreach ($keywords as $index => $keyword) {
+    $url = $domain . '/p/' . $keyword;
+    $changeFreq = $index < 10 ? 'daily' : 'weekly';
+    $priority = $index < 10 ? '1.0' : '0.8';  // Top 10 URLs have higher priority
     echo '  <url>' . "\n";
-    echo '    <loc>' . htmlspecialchars($domain . '/p/' . $keyword) . '</loc>' . "\n";
+    echo '    <loc>' . htmlspecialchars($url) . '</loc>' . "\n";
     echo '    <lastmod>' . $today . '</lastmod>' . "\n";
-    echo '    <changefreq>weekly</changefreq>' . "\n";
-    echo '    <priority>0.8</priority>' . "\n";
+    echo '    <changefreq>' . $changeFreq . '</changefreq>' . "\n";
+    echo '    <priority>' . $priority . '</priority>' . "\n";
     echo '  </url>' . "\n";
 }
 echo '</urlset>';
